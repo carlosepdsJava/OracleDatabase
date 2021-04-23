@@ -18,10 +18,7 @@ Builds a container image for Oracle Database.
 Parameters:
    -v: version to build
        Choose one of: $(for i in */; do echo -n "${i%%/}  "; done)
-   -e: creates image based on 'Enterprise Edition'
-   -s: creates image based on 'Standard Edition 2'
    -x: creates image based on 'Express Edition'
-   -i: ignores the MD5 checksums
    -o: passes on container build option
 
 * select one edition only: -e, -s, or -x

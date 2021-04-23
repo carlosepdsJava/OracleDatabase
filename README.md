@@ -26,30 +26,15 @@ The `buildContainerImage.sh` script is just a utility shell script that performs
 
     Build completed in XXX seconds.
 
-
-
-**IMPORTANT:** The resulting images will be an image with the Oracle binaries installed. On first startup of the container a new database will be created, the following lines highlight when the database is ready to be used:
-
-    #########################
-    DATABASE IS READY TO USE!
-    #########################
-
-You may extend the image with your own Dockerfile and create the users and tablespaces that you may need.
-
-The character set for the database is set during creating of the database. 11gR2 Express Edition supports only UTF-8. You can set the character set for the Standard Edition 2 and Enterprise Edition during the first run of your container and may keep separate folders containing different tablespaces with different character sets.
-
 ### Running Oracle Database in a container
 
 #### Running Oracle Database 18c Express Edition in a container
 
 To run your Oracle Database 18c Express Edition container image use the `docker run` command as follows:
 
-    docker run --name <container name> \
-    -p <host port>:1521 -p <host port>:5500 \
-    -e ORACLE_PWD=<your database passwords> \
-    -e ORACLE_CHARACTERSET=<your character set> \
-    -v [<host mount point>:]/opt/oracle/oradata \
-    oracle/database:18.4.0-xe
+        docker run --name OracleDB \
+        -p 1521:1521 -p 5500:5500 \
+        oracle/database:18.4.0-xe
     
     Parameters:
        --name:        The name of the container (default: auto generated)
@@ -69,6 +54,16 @@ To run your Oracle Database 18c Express Edition container image use the `docker 
                       Optional: A volume with custom scripts to be run after database setup.
                       For further details see the "Running scripts after setup and on startup" section below.
 
+**IMPORTANT:** The resulting images will be an image with the Oracle binaries installed. On first startup of the container a new database will be created, the following lines highlight when the database is ready to be used:
+
+    #########################
+    DATABASE IS READY TO USE!
+    #########################
+
+You may extend the image with your own Dockerfile and create the users and tablespaces that you may need.
+
+The character set for the database is set during creating of the database. 11gR2 Express Edition supports only UTF-8. You can set the character set for the Standard Edition 2 and Enterprise Edition during the first run of your container and may keep separate folders containing different tablespaces with different character sets.
+
 Once the container has been started and the database created you can connect to it just like to any other database:
 
     sqlplus sys/<your password>@//localhost:1521/XE as sysdba
@@ -82,6 +77,8 @@ The Oracle Database inside the container also has Oracle Enterprise Manager Expr
 On the first startup of the container a random password will be generated for the database if not provided. You can find this password in the output line:
 
     ORACLE PASSWORD FOR SYS AND SYSTEM:
+
+![Screenshot](pass.png)
 
 **Note:** The ORACLE_SID for Express Edition is always `XE` and cannot be changed, hence there is no ORACLE_SID parameter provided for the XE build.
 
